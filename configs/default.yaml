@@ -1,0 +1,21 @@
+model:
+  input_channels: 2
+  sequence_length: 512
+  levels: 3
+  couplings_per_level: 1
+  squeeze_factor: 4
+  model_dim: 128
+  num_heads: 4
+  feedforward_dim: 256
+  transformer_layers: 1
+  window_size: 32
+  key_peak_ratio: 0.16
+  fusion_alpha: 0.7
+  dropout: 0.0
+
+training:
+  batch_size: 4
+  learning_rate: 0.0001
+  max_steps: 100
+  seed: 17
+  device: cpu
