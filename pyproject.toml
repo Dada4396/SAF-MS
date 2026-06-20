@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sparse-ms-flow"
 version = "0.1.0"
-description = "Sparse-attention integer flows for proteomics mass spectrometry data"
+description = "SAF-MS sparse-attention integer flows for proteomics mass spectrometry data"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

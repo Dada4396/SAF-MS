@@ -1,9 +1,12 @@
-# SparseMSFlow: Hybrid Lossless Compression for Proteomics Mass Spectrometry Data
+# SAF-MS (SparseMSFlow): Hybrid Lossless Compression for Proteomics Mass Spectrometry Data
 
-**Core implementation of SparseMSFlow for sparse peak-aware, exactly reversible
+**Core implementation of SAF-MS for sparse peak-aware, exactly reversible
 compression of fixed-width proteomics mass spectrometry windows.**
 
-SparseMSFlow integrates sparse local/key-peak conditioning, multiscale integer
+The paper refers to the method as **SAF-MS**. **SparseMSFlow** is the stable
+repository name and the basis of the Python package name `sparse_ms_flow`.
+
+SAF-MS integrates sparse local/key-peak conditioning, multiscale integer
 flows, learned latent entropy models, and static rANS coding in one compact,
 installable Python project.
 
