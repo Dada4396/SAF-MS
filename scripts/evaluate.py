@@ -4,8 +4,8 @@ import argparse
 
 import torch
 
-from sparse_ms_flow.data import load_spectrum_windows
-from sparse_ms_flow.workflows import evaluate_model, load_checkpoint, synthetic_inputs
+from saf_ms.data import load_spectrum_windows
+from saf_ms.workflows import evaluate_model, load_checkpoint, synthetic_inputs
 
 
 def main() -> None:

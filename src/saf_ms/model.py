@@ -1,4 +1,4 @@
-"""Top-level SparseMSFlow model definitions."""
+"""Top-level SAF-MS model definitions."""
 
 from dataclasses import dataclass
 from typing import List, Optional
@@ -11,8 +11,8 @@ from .flow_layers import MultiScaleIntegerFlow
 
 
 @dataclass(frozen=True)
-class SparseMSFlowConfig:
-    """Architecture configuration for SparseMSFlow."""
+class SAFMSConfig:
+    """Architecture configuration for SAF-MS."""
 
     input_channels: int = 2
     sequence_length: int = 512
@@ -30,7 +30,7 @@ class SparseMSFlowConfig:
 
     def __post_init__(self) -> None:
         if self.input_channels != 2:
-            raise ValueError("SparseMSFlow expects two input channels")
+            raise ValueError("SAF-MS expects two input channels")
         integer_fields = {
             "sequence_length": self.sequence_length,
             "levels": self.levels,
@@ -74,12 +74,12 @@ class SparseMSFlowConfig:
             raise ValueError("dropout must be in [0, 1)")
 
 
-class SparseMSFlowModel(nn.Module):
+class SAFMSModel(nn.Module):
     """Multi-scale integer flow conditioned by sparse peak attention."""
 
-    def __init__(self, config: Optional[SparseMSFlowConfig] = None):
+    def __init__(self, config: Optional[SAFMSConfig] = None):
         super().__init__()
-        self.config = config or SparseMSFlowConfig()
+        self.config = config or SAFMSConfig()
         self.flow = MultiScaleIntegerFlow(self.config)
         self.entropy_models = nn.ModuleList(
             DiscretizedLogisticEntropyModel(channels)

@@ -1,12 +1,12 @@
-"""Train a bounded SparseMSFlow model."""
+"""Train a bounded SAF-MS model."""
 
 import argparse
 from dataclasses import replace
 
-from sparse_ms_flow.config import load_config
-from sparse_ms_flow.data import load_spectrum_windows
-from sparse_ms_flow.model import SparseMSFlowModel
-from sparse_ms_flow.workflows import save_checkpoint, train_model
+from saf_ms.config import load_config
+from saf_ms.data import load_spectrum_windows
+from saf_ms.model import SAFMSModel
+from saf_ms.workflows import save_checkpoint, train_model
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
     source.add_argument("--synthetic", action="store_true")
     parser.add_argument("--max-steps", type=int, help="bounded optimization steps")
     parser.add_argument("--device", choices=["cpu", "cuda", "mps"])
-    parser.add_argument("--output", default="sparse_ms_flow.pt")
+    parser.add_argument("--output", default="saf_ms.pt")
     args = parser.parse_args()
 
     try:
@@ -25,7 +25,7 @@ def main() -> None:
         if args.device:
             settings = replace(settings, device=args.device)
         windows = None if args.synthetic else load_spectrum_windows(args.data)
-        model = SparseMSFlowModel(model_config)
+        model = SAFMSModel(model_config)
         losses = train_model(model, settings, windows, args.max_steps)
         save_checkpoint(model, args.output)
     except (FileNotFoundError, OSError, ValueError, RuntimeError) as error:

@@ -3,13 +3,13 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sparse-ms-flow"
+name = "saf-ms"
 version = "0.1.0"
 description = "SAF-MS sparse-attention integer flows for proteomics mass spectrometry data"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-authors = [{ name = "SparseMSFlow Contributors" }]
+authors = [{ name = "SAF-MS Contributors" }]
 keywords = ["mass-spectrometry", "lossless-compression", "integer-flow", "sparse-attention", "rans"]
 dependencies = [
     "numpy>=1.24",

@@ -2,7 +2,7 @@ import math
 
 import torch
 
-from sparse_ms_flow.attention import SparsePeakAttention
+from saf_ms.attention import SparsePeakAttention
 
 
 def test_selects_high_intensity_key_peaks():

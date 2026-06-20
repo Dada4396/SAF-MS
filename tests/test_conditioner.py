@@ -1,6 +1,6 @@
 import torch
 
-from sparse_ms_flow.conditioner import SparseFlowConditioner
+from saf_ms.conditioner import SparseFlowConditioner
 
 
 def test_conditioner_preserves_length_and_gradients():

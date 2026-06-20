@@ -1,10 +1,11 @@
-# SAF-MS (SparseMSFlow): Hybrid Lossless Compression for Proteomics Mass Spectrometry Data
+# SAF-MS: Hybrid Lossless Compression for Proteomics Mass Spectrometry Data
 
 **Core implementation of SAF-MS for sparse peak-aware, exactly reversible
 compression of fixed-width proteomics mass spectrometry windows.**
 
-The paper refers to the method as **SAF-MS**. **SparseMSFlow** is the stable
-repository name and the basis of the Python package name `sparse_ms_flow`.
+The paper, GitHub repository, Python distribution, and public API all use the
+SAF-MS name. The importable Python module is `saf_ms` because Python identifiers
+cannot contain hyphens.
 
 SAF-MS integrates sparse local/key-peak conditioning, multiscale integer
 flows, learned latent entropy models, and static rANS coding in one compact,
@@ -41,8 +42,8 @@ flowchart LR
 ## Repository Layout
 
 ```text
-SparseMSFlow/
-├── src/sparse_ms_flow/   # core model, entropy, codec, data, and workflows
+SAF-MS/
+├── src/saf_ms/   # core model, entropy, codec, data, and workflows
 ├── scripts/              # train, evaluate, encode, and decode commands
 ├── configs/default.yaml  # complete default model and training configuration
 ├── examples/smoke_test.py
@@ -52,7 +53,7 @@ SparseMSFlow/
 
 ## Installation
 
-SparseMSFlow requires Python 3.10 or later.
+SAF-MS requires Python 3.10 or later.
 
 ```bash
 python -m venv .venv
@@ -79,16 +80,16 @@ exact_round_trip=True
 ```python
 import torch
 
-from sparse_ms_flow import SparseMSFlowConfig, SparseMSFlowModel
+from saf_ms import SAFMSConfig, SAFMSModel
 
-config = SparseMSFlowConfig(
+config = SAFMSConfig(
     sequence_length=64,
     levels=2,
     model_dim=16,
     num_heads=4,
     feedforward_dim=32,
 )
-model = SparseMSFlowModel(config)
+model = SAFMSModel(config)
 inputs = torch.randint(0, 4096, (1, 2, 64)).float()
 
 bits_per_value = model.bits_per_value(inputs)
@@ -115,8 +116,8 @@ validation rules, and deterministic 80/10/10 splitting.
 | Train | `python scripts/train.py --data windows.npy --output model.pt` |
 | Synthetic train | `python scripts/train.py --synthetic --max-steps 1 --output model.pt` |
 | Evaluate | `python scripts/evaluate.py --checkpoint model.pt --data windows.npy` |
-| Encode | `python scripts/encode.py --checkpoint model.pt --input windows.npy --output windows.smsf` |
-| Decode | `python scripts/decode.py --checkpoint model.pt --input windows.smsf --output restored.npy` |
+| Encode | `python scripts/encode.py --checkpoint model.pt --input windows.npy --output windows.safms` |
+| Decode | `python scripts/decode.py --checkpoint model.pt --input windows.safms --output restored.npy` |
 
 Every command supports `--help`, explicit paths, CPU execution, and concise
 nonzero exits for missing or invalid inputs. Checkpoints retain both model
@@ -158,7 +159,7 @@ described in [SECURITY.md](SECURITY.md).
 
 ## License
 
-SparseMSFlow is provided under the terms in [LICENSE](LICENSE).
+SAF-MS is provided under the terms in [LICENSE](LICENSE).
 
 ## Citation
 

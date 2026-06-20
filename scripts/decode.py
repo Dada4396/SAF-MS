@@ -1,10 +1,10 @@
-"""Decode a SparseMSFlow rANS container into NumPy windows."""
+"""Decode a SAF-MS rANS container into NumPy windows."""
 
 import argparse
 
 import numpy as np
 
-from sparse_ms_flow.workflows import decode_array, load_checkpoint, load_container
+from saf_ms.workflows import decode_array, load_checkpoint, load_container
 
 
 def main() -> None:

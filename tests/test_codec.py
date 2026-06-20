@@ -1,9 +1,9 @@
 import numpy as np
 import torch
 
-from sparse_ms_flow.codec import RansCodec
-from sparse_ms_flow.distributions import discretized_logistic_log_prob
-from sparse_ms_flow.model import SparseMSFlowConfig, SparseMSFlowModel
+from saf_ms.codec import RansCodec
+from saf_ms.distributions import discretized_logistic_log_prob
+from saf_ms.model import SAFMSConfig, SAFMSModel
 
 
 def test_discretized_logistic_is_finite():
@@ -48,7 +48,7 @@ def test_rans_round_trip_supports_full_int64_range():
 
 
 def test_rans_rejects_invalid_cdf():
-    from sparse_ms_flow.rans import RansPayload
+    from saf_ms.rans import RansPayload
 
     payload = RansPayload(
         shape=(2,),
@@ -63,14 +63,14 @@ def test_rans_rejects_invalid_cdf():
 
 
 def test_model_bits_per_value_is_finite_and_differentiable():
-    config = SparseMSFlowConfig(
+    config = SAFMSConfig(
         sequence_length=64,
         levels=2,
         model_dim=16,
         num_heads=4,
         feedforward_dim=32,
     )
-    model = SparseMSFlowModel(config)
+    model = SAFMSModel(config)
     inputs = torch.randint(0, 256, (2, 2, 64)).float()
 
     bits = model.bits_per_value(inputs)

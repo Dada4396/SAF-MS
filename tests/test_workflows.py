@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from sparse_ms_flow.model import SparseMSFlowConfig, SparseMSFlowModel
-from sparse_ms_flow.workflows import (
+from saf_ms.model import SAFMSConfig, SAFMSModel
+from saf_ms.workflows import (
     decode_array,
     encode_array,
     load_checkpoint,
@@ -13,17 +13,17 @@ from sparse_ms_flow.workflows import (
 
 
 def test_checkpoint_and_numeric_container_round_trip(tmp_path):
-    config = SparseMSFlowConfig(
+    config = SAFMSConfig(
         sequence_length=64,
         levels=2,
         model_dim=16,
         num_heads=4,
         feedforward_dim=32,
     )
-    model = SparseMSFlowModel(config)
+    model = SAFMSModel(config)
     windows = np.arange(2 * 64, dtype=np.int64).reshape(1, 2, 64)
     checkpoint = tmp_path / "model.pt"
-    container = tmp_path / "windows.smsf"
+    container = tmp_path / "windows.safms"
 
     save_checkpoint(model, checkpoint)
     restored_model = load_checkpoint(checkpoint)
@@ -35,7 +35,7 @@ def test_checkpoint_and_numeric_container_round_trip(tmp_path):
 
 
 def test_container_rejects_an_invalid_latent_count(tmp_path):
-    container = tmp_path / "invalid.smsf"
+    container = tmp_path / "invalid.safms"
     with open(container, "wb") as handle:
         np.savez(
             handle,

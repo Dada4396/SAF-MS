@@ -1,9 +1,9 @@
-"""Encode NumPy spectrum windows into a SparseMSFlow rANS container."""
+"""Encode NumPy spectrum windows into a SAF-MS rANS container."""
 
 import argparse
 
-from sparse_ms_flow.data import load_spectrum_windows
-from sparse_ms_flow.workflows import encode_array, load_checkpoint, save_container
+from saf_ms.data import load_spectrum_windows
+from saf_ms.workflows import encode_array, load_checkpoint, save_container
 
 
 def main() -> None:

@@ -2,7 +2,7 @@
 
 ## Array Contract
 
-SparseMSFlow consumes `.npy` files containing a three-dimensional NumPy array in
+SAF-MS consumes `.npy` files containing a three-dimensional NumPy array in
 one of two layouts:
 
 - `samples x 2 x 512` (channel first); or

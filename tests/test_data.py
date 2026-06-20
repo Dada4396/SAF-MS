@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from sparse_ms_flow.data import load_spectrum_windows, split_windows
+from saf_ms.data import load_spectrum_windows, split_windows
 
 
 def test_loader_accepts_both_supported_layouts(tmp_path):

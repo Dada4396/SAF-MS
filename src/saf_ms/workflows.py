@@ -9,7 +9,7 @@ import torch
 
 from .codec import RansCodec
 from .config import TrainingSettings
-from .model import SparseMSFlowConfig, SparseMSFlowModel
+from .model import SAFMSConfig, SAFMSModel
 from .rans import RansPayload
 
 
@@ -17,7 +17,7 @@ Pathish = Union[str, PathLike[str]]
 
 
 def synthetic_inputs(
-    config: SparseMSFlowConfig,
+    config: SAFMSConfig,
     batch_size: int = 2,
     seed: int = 17,
 ) -> torch.Tensor:
@@ -32,7 +32,7 @@ def synthetic_inputs(
 
 
 def train_model(
-    model: SparseMSFlowModel,
+    model: SAFMSModel,
     settings: TrainingSettings,
     windows: Optional[np.ndarray] = None,
     max_steps: Optional[int] = None,
@@ -65,7 +65,7 @@ def train_model(
 
 
 @torch.no_grad()
-def evaluate_model(model: SparseMSFlowModel, inputs: torch.Tensor) -> Mapping[str, object]:
+def evaluate_model(model: SAFMSModel, inputs: torch.Tensor) -> Mapping[str, object]:
     """Report coding cost and exact integer-flow reconstruction status."""
     model.eval()
     device = next(model.parameters()).device
@@ -78,7 +78,7 @@ def evaluate_model(model: SparseMSFlowModel, inputs: torch.Tensor) -> Mapping[st
     }
 
 
-def save_checkpoint(model: SparseMSFlowModel, path: Pathish) -> None:
+def save_checkpoint(model: SAFMSModel, path: Pathish) -> None:
     """Save architecture metadata and a model state dictionary."""
     torch.save(
         {"config": asdict(model.config), "model_state": model.state_dict()},
@@ -86,24 +86,24 @@ def save_checkpoint(model: SparseMSFlowModel, path: Pathish) -> None:
     )
 
 
-def load_checkpoint(path: Pathish, device: str = "cpu") -> SparseMSFlowModel:
-    """Load a SparseMSFlow checkpoint onto an explicit device."""
+def load_checkpoint(path: Pathish, device: str = "cpu") -> SAFMSModel:
+    """Load a SAF-MS checkpoint onto an explicit device."""
     document = torch.load(path, map_location=device, weights_only=True)
     if not isinstance(document, Mapping):
         raise ValueError("checkpoint must contain a mapping")
     try:
-        config = SparseMSFlowConfig(**document["config"])
+        config = SAFMSConfig(**document["config"])
         state = document["model_state"]
     except (KeyError, TypeError) as error:
         raise ValueError("checkpoint is missing model config or state") from error
-    model = SparseMSFlowModel(config).to(device)
+    model = SAFMSModel(config).to(device)
     model.load_state_dict(state)
     return model
 
 
 @torch.no_grad()
 def encode_array(
-    model: SparseMSFlowModel,
+    model: SAFMSModel,
     windows: np.ndarray,
     precision: int = 16,
 ) -> List[RansPayload]:
@@ -119,7 +119,7 @@ def encode_array(
 
 @torch.no_grad()
 def decode_array(
-    model: SparseMSFlowModel,
+    model: SAFMSModel,
     payloads: Iterable[RansPayload],
     precision: int = 16,
 ) -> np.ndarray:
@@ -195,7 +195,7 @@ def load_container(path: Pathish) -> tuple[int, List[RansPayload]]:
 
 
 def _latent_shapes(
-    config: SparseMSFlowConfig,
+    config: SAFMSConfig,
     payloads: List[RansPayload],
 ) -> List[tuple[int, int, int]]:
     if len(payloads) != config.levels:

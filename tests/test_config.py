@@ -2,14 +2,14 @@ from pathlib import Path
 
 import pytest
 
-from sparse_ms_flow.config import TrainingSettings, load_config
-from sparse_ms_flow.model import SparseMSFlowConfig
+from saf_ms.config import TrainingSettings, load_config
+from saf_ms.model import SAFMSConfig
 
 
 def test_default_yaml_builds_model_and_training_settings():
     model, training = load_config(Path("configs/default.yaml"))
 
-    assert isinstance(model, SparseMSFlowConfig)
+    assert isinstance(model, SAFMSConfig)
     assert isinstance(training, TrainingSettings)
     assert model.sequence_length == 512
     assert model.levels == 3
@@ -40,4 +40,4 @@ def test_config_rejects_unknown_sections(tmp_path):
 )
 def test_model_config_rejects_invalid_architecture(values):
     with pytest.raises(ValueError):
-        SparseMSFlowConfig(**values)
+        SAFMSConfig(**values)

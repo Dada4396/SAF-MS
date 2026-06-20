@@ -1,4 +1,4 @@
-"""Probability utilities used by SparseMSFlow entropy models."""
+"""Probability utilities used by SAF-MS entropy models."""
 
 import math
 from typing import Union

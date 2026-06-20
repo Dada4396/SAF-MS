@@ -2,19 +2,19 @@
 
 import torch
 
-from sparse_ms_flow.model import SparseMSFlowConfig, SparseMSFlowModel
-from sparse_ms_flow.workflows import synthetic_inputs
+from saf_ms.model import SAFMSConfig, SAFMSModel
+from saf_ms.workflows import synthetic_inputs
 
 
 def main() -> None:
-    config = SparseMSFlowConfig(
+    config = SAFMSConfig(
         sequence_length=64,
         levels=2,
         model_dim=16,
         num_heads=4,
         feedforward_dim=32,
     )
-    model = SparseMSFlowModel(config)
+    model = SAFMSModel(config)
     inputs = synthetic_inputs(config, batch_size=1)
     bits = model.bits_per_value(inputs)
     bits.backward()

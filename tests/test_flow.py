@@ -1,8 +1,8 @@
 import pytest
 import torch
 
-from sparse_ms_flow.flow_layers import InterleavedSqueeze1d
-from sparse_ms_flow.model import SparseMSFlowConfig, SparseMSFlowModel
+from saf_ms.flow_layers import InterleavedSqueeze1d
+from saf_ms.model import SAFMSConfig, SAFMSModel
 
 
 def test_interleaved_squeeze_round_trip():
@@ -15,7 +15,7 @@ def test_interleaved_squeeze_round_trip():
 
 
 def test_three_level_flow_is_exactly_invertible():
-    config = SparseMSFlowConfig(
+    config = SAFMSConfig(
         sequence_length=512,
         levels=3,
         couplings_per_level=1,
@@ -24,7 +24,7 @@ def test_three_level_flow_is_exactly_invertible():
         feedforward_dim=64,
         transformer_layers=1,
     )
-    model = SparseMSFlowModel(config)
+    model = SAFMSModel(config)
     inputs = torch.randint(0, 4096, (2, 2, 512)).float()
 
     latents = model.encode(inputs)
@@ -40,4 +40,4 @@ def test_three_level_flow_is_exactly_invertible():
 
 def test_configuration_rejects_incompatible_sequence_length():
     with pytest.raises(ValueError, match="divisible"):
-        SparseMSFlowConfig(sequence_length=500, levels=3)
+        SAFMSConfig(sequence_length=500, levels=3)

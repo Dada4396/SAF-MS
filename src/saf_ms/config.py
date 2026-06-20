@@ -6,7 +6,7 @@ from typing import Mapping, Tuple, Union
 
 import yaml
 
-from .model import SparseMSFlowConfig
+from .model import SAFMSConfig
 
 
 Pathish = Union[str, PathLike[str]]
@@ -33,7 +33,7 @@ class TrainingSettings:
             raise ValueError("device must be one of: cpu, cuda, mps")
 
 
-def load_config(path: Pathish) -> Tuple[SparseMSFlowConfig, TrainingSettings]:
+def load_config(path: Pathish) -> Tuple[SAFMSConfig, TrainingSettings]:
     """Load strict model and training dataclasses from a YAML mapping."""
     with open(path, "r", encoding="utf-8") as handle:
         document = yaml.safe_load(handle) or {}
@@ -47,7 +47,7 @@ def load_config(path: Pathish) -> Tuple[SparseMSFlowConfig, TrainingSettings]:
     model_values = _mapping_section(document, "model")
     training_values = _mapping_section(document, "training")
     try:
-        return SparseMSFlowConfig(**model_values), TrainingSettings(**training_values)
+        return SAFMSConfig(**model_values), TrainingSettings(**training_values)
     except TypeError as error:
         raise ValueError(f"invalid configuration field: {error}") from error
 
